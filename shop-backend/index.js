@@ -2,6 +2,8 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const db = require("./config/db");
 const authRouter = require("./routes/authRoute");
+const { errorHandler, notFound } = require("./middlewares/errorHandler");
+
 const app = express();
 require("dotenv").config();
 db();
@@ -14,6 +16,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/user", authRouter);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

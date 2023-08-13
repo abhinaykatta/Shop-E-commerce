@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 // Declare the Schema of the Mongo model
 var userSchema = new mongoose.Schema(
@@ -64,9 +65,8 @@ userSchema.pre("save", async function (next) {
 });
 
 //method to match password
-userSchema.methods.isPasswordMatched = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+userSchema.methods.isPasswordMatched = async (pwd, usrpwd) => {
+  return await bcrypt.compare(pwd, usrpwd);
 };
-
 //Export the model
 module.exports = mongoose.model("User", userSchema);
